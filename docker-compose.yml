@@ -1,0 +1,26 @@
+services:
+  # ── Сервіс для генерації даних (як раніше)
+  generator:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    command: python src/generate_dataset_ext.py --samples 50000 --conv-samples 7500
+
+  # ── Сервіс для Jupyter (новий)
+  jupyter:
+    image: quay.io/jupyter/scipy-notebook:latest
+    # або quay.io/jupyter/datascience-notebook:latest якщо хочете більше пакетів
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./notebooks:/home/jovyan/work
+      - ./data:/home/jovyan/data:ro           # тільки читання, щоб не змінювали випадково
+      - ./config:/home/jovyan/config:ro
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=secret123               # змініть на свій або видаліть → отримаєте випадковий
+      - NB_USER=jovyan
+      - NB_UID=1000
+      - NB_GID=1000
+    restart: unless-stopped
