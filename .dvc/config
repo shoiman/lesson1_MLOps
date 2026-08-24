@@ -1,0 +1,6 @@
+[core]
+    remote = minio
+['remote "minio"']
+    url = s3://my-telco-bucket
+    endpointurl = http://localhost:9000
+    profile = minio
