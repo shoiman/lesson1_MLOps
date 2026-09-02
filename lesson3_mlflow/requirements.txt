@@ -1,0 +1,8 @@
+mlflow
+scikit-learn
+xgboost-cpu
+pandas
+numpy
+matplotlib
+seaborn
+ipykernel

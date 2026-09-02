@@ -1,0 +1,23 @@
+name: telco-churn-mlflow
+python_env: python_env.yaml
+
+entry_points:
+  train:
+    parameters:
+      experiment_name: {type: str, default: "telco-churn-cli"}
+      model_type: {type: str, default: "rf"}
+      params: {type: str, default: "{}"}
+    command: "python src/train.py --experiment-name {experiment_name} --model-type {model_type} --params '{params}'"
+  register:
+    parameters:
+      experiment_name: {type: str, default: "telco-churn-cli"}
+      metric: {type: str, default: "f1_score"}
+    command: "python src/register_model.py --experiment-name {experiment_name} --metric {metric}"
+  predict:
+    parameters:
+      model_name: {type: str, default: "TelcoChurnModel"}
+      alias: {type: str, default: "champion"}
+      data_path: {type: str, default: ""}
+      output: {type: str, default: ""}
+    # Note: the single quotes are necessary to escape the double quotes in the data_path and output parameters
+    command: 'python src/predict.py --model-name {model_name} --alias {alias} --data-path "{data_path}" --output "{output}"'
